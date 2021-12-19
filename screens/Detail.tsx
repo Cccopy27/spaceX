@@ -1,20 +1,43 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View, ScrollView, Button } from 'react-native';
+import React,{useState, useRef, useEffect}from 'react';
 import {useRoute} from '@react-navigation/native';
 import { detailScreenRouteProp } from '../types/types';
 
   
 const Detail:React.FC= () =>{
     const route = useRoute<detailScreenRouteProp>();
+    const ac = new AbortController();
+    // auto scrolling for description part
+    const [offSet,setOffset] = useState(0);
+    const scrollViewRef = useRef<ScrollView>(null);
+    console.log(offSet);
+    useEffect(()=>{
+        autoScroll();
+        return () => {
+            ac.abort();
+        }
+    },[offSet]);
+    const autoScroll = () => {
+        if(offSet<2000){
+            requestAnimationFrame(()=>{
+                const y = offSet + 5;
+                scrollViewRef.current?.scrollTo({x:0, y,animated:true});
+                // scrollViewRef.current?.scrollToEnd({animated:true});
+                setOffset(y);
+                
+            })
+        }
+        
+    }
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.scrollView}>
+            <ScrollView contentContainerStyle={styles.scrollView}>
                 <Text style={styles.title}>{route.params.name}</Text>
                 <View style={styles.by}>
                     <Text style={styles.company}>by {route.params.company}</Text>
                     <Text style={styles.country}>{route.params.country}</Text>
                 </View>
-                <ScrollView style={styles.description_container}>
+                <ScrollView ref={scrollViewRef} style={styles.description_container}>
                     <Text style={styles.description}>{route.params.description}</Text>    
                 </ScrollView>
                 <View style={styles.section1}>
@@ -42,12 +65,15 @@ const styles = StyleSheet.create({
         backgroundColor:"black",
     },
     title:{
+        textAlign:"center",
+        // flex:1,
         fontSize: 30,
         color:"white",
         alignSelf:"center",
     },
     by:{
-        marginTop: 20,
+        // flex:1,
+        marginVertical: 20,
         color:"white",
         flexDirection:"row",
         justifyContent:"center",
@@ -62,22 +88,35 @@ const styles = StyleSheet.create({
         color:"white",  
     },
     scrollView:{
+        flex: 1,
 
+        justifyContent: "space-between",
     },
     description:{
+        flex:1 ,
         fontSize: 25,
         color:"white",
         textAlign:"center",
         marginVertical: 20,
     },
     description_container:{
+        borderWidth:1,
+        borderColor:"red",
+        padding: 30,
+        flex:4,
+        minHeight: 100,
         alignSelf:"center",
         width: "85%",
-        marginVertical: 20,
-        height:150,
+        // marginVertical: 20,
     },
     section1:{
-        marginRight: 20,
+        justifyContent:"center",
+        borderWidth:1,
+        borderColor:"blue",
+        // flex:2,
+        padding: 10,
+        marginTop: 40,
+        marginHorizontal: 20,
     },
     diameter:{
         textAlign:"right",
@@ -92,8 +131,13 @@ const styles = StyleSheet.create({
         color:"white",
     },
     section2:{
-        marginLeft: 20,
-
+        borderWidth: 1,
+        borderColor:"yellow",
+        justifyContent:"center",
+        marginHorizontal:20,
+        marginVertical: 30,
+        // flex:2,
+        padding: 10,
     },
     first_flight:{
         color:"white",
@@ -102,7 +146,11 @@ const styles = StyleSheet.create({
         color:"white",
     },
     wikipedia:{
-        flexWrap:"wrap-reverse",
+        flex:1,
+        paddingBottom: 5,
+        textAlign:"center",
+        textAlignVertical:"bottom",
         color:"white",
+        
     }
 })
