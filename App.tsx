@@ -2,7 +2,6 @@ import React, {useState}from 'react';
 import { StyleSheet, View } from 'react-native';
 import {NavigationContainer} from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationOptions} from '@react-navigation/native-stack';
-import {StackNavigationOptions} from "@react-navigation/stack";
 import {ApolloClient, InMemoryCache, ApolloProvider, gql} from "@apollo/client";
 
 import Home from './screens/Home';
@@ -15,20 +14,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const rocketInfo = gql`
-  query GetRocketInfo {
-  rockets {
-    id
-    name
-    company
-  }
-}
-  `
-
 const Stack = createNativeStackNavigator();
 
 const screenOptionStyles: NativeStackNavigationOptions ={
-  headerShown: false,
+  headerTitle: "Space X"
 }
 const App: React.FC=()=> {
   return (
@@ -57,5 +46,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: "column",
   },
 });
