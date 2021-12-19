@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, Linking } from 'react-native';
 import React,{useState, useRef, useEffect}from 'react';
 import {useRoute} from '@react-navigation/native';
 import { detailScreenRouteProp } from '../types/types';
@@ -18,7 +18,7 @@ const Detail:React.FC= () =>{
         }
     },[offSet]);
     const autoScroll = () => {
-        if(offSet<2000){
+        if(offSet<5000){
             requestAnimationFrame(()=>{
                 const y = offSet + 5;
                 scrollViewRef.current?.scrollTo({x:0, y,animated:true});
@@ -50,7 +50,7 @@ const Detail:React.FC= () =>{
                     <Text style={styles.cost_per_launch}>Cost per launch: {route.params.cost_per_launch}</Text>
                 </View>
                 
-                <Text style={styles.wikipedia}>Learn more: {route.params.wikipedia}</Text>
+                <Text style={styles.wikipedia} onPress={()=>Linking.openURL(route.params.wikipedia)}>Learn more: {route.params.wikipedia}</Text>
             </ScrollView>
             
         </View>
