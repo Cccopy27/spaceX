@@ -17,7 +17,16 @@ const client = new ApolloClient({
 const Stack = createNativeStackNavigator();
 
 const screenOptionStyles: NativeStackNavigationOptions ={
-  headerTitle: "Space X"
+  headerStyle:{
+    backgroundColor: "black",
+  },
+  headerTintColor:"white",
+  title: "Space X",
+  headerTitleAlign:"center",
+  headerTitleStyle:{
+    fontWeight:"bold",
+  }
+  
 }
 const App: React.FC=()=> {
   return (
