@@ -20,7 +20,7 @@ const screenOptionStyles: NativeStackNavigationOptions ={
   headerStyle:{
     backgroundColor: "black",
   },
-  headerTintColor:"white",
+  headerTintColor:"red",
   title: "Space X",
   headerTitleAlign:"center",
   headerTitleStyle:{
@@ -52,7 +52,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "black",
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: "column",
